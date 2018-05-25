@@ -7,12 +7,6 @@ import BookListPage from "./components/booklist_page_content";
 import "./App.css";
 
 class BooksApp extends React.Component {
-  // constructor() {
-  //   super();
-  //   this.state = BooksAPI.getAll().then((books)) => {
-  //     this.setState({books});
-  //   }
-  // }
   state = {
     books: []
   };

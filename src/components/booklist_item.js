@@ -1,3 +1,8 @@
+import React, { Component } from "react";
+
+class Book extends Component {
+
+render(
 <li>
   <div className="book">
     <div className="book-top">
@@ -26,3 +31,4 @@
     <div className="book-authors">Harper Lee</div>
   </div>
 </li>;
+)}

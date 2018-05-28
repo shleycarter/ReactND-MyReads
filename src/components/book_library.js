@@ -3,6 +3,8 @@ import BookShelf from "./book_shelf.js";
 
 class BookLibrary extends Component {
   render() {
+    const shelfCollection = this.props.books;
+
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -10,7 +12,12 @@ class BookLibrary extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <BookShelf label="Currently Reading" />
+            <BookShelf
+              label="Currently Reading"
+              shelfCollection={shelfCollection.filter(
+                book => book.shelf === "currentlyReading"
+              )}
+            />
             <BookShelf label="Want to Read" />
             <BookShelf label="Read" />
           </div>

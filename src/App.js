@@ -1,10 +1,10 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
-import BookListPage from "./components/booklist_page_content";
+import BookLibrary from "./components/book_library";
 
 import "./App.css";
-import SearchPage from "./components/search_page";
+import SearchButton from "./components/search_button";
 
 class BooksApp extends React.Component {
   state = {
@@ -13,14 +13,19 @@ class BooksApp extends React.Component {
   componentDidMount() {
     BooksAPI.getAll().then(books => {
       this.setState({ books });
+      console.log({ books });
     });
   }
 
   render() {
     return (
       <div className="app">
-        <Route exact path="/" render={() => <BookListPage />} />
-        <Route exact path="/search" Component={SearchPage} />
+        <Route
+          exact
+          path="/"
+          render={() => <BookLibrary books={this.state.books} />}
+        />
+        <SearchButton />
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from "react";
 import Book from "./book_item.js";
 
-const BookShelf = props => {
+class BookShelf extends Component {
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{props.label}</h2>

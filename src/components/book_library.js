@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import BookShelf from "./book_shelf.js";
+import SearchButton from "./search_button.js";
+import { PropTypes } from "prop-types";
 
 class BookLibrary extends Component {
+  static PropTypes = {
+    books: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired
+  };
+
   render() {
     const shelfCollection = this.props.books;
 
@@ -20,6 +27,7 @@ class BookLibrary extends Component {
             />
             <BookShelf label="Want to Read" />
             <BookShelf label="Read" />
+            <SearchButton />
           </div>
         </div>
       </div>

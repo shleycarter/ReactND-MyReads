@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
 
-class Book extends Component {
+class BookItem extends Component {
   static propTypes = {
     book: PropTypes.object.isRequired,
     onUpdate: PropTypes.func.isRequired
   };
 
-  changeBookShelf = e => {
+  switchBookShelf = e => {
     this.props.onUpdate(e.target.value);
   };
   render() {
-    // const book = this.props.book;
+    const bookItem = this.props.book;
     return (
       <li key={this.props.id}>
         <div className="book">
@@ -21,11 +21,11 @@ class Book extends Component {
               style={{
                 width: 128,
                 height: 193,
-                backgroundImage: 'url("${book.imageLinks.thumbnail}")'
+                backgroundImage: `url("${bookItem.imageLinks.thumbnail}")`
               }}
             />
             <div className="book-shelf-changer">
-              <select onChange={this.changeBookShelf} value={this.props.shelf}>
+              <select onChange={this.switchBookShelf} value={this.props.shelf}>
                 <option value="none" disabled>
                   Move to...
                 </option>
@@ -44,4 +44,4 @@ class Book extends Component {
   }
 }
 
-export default Book;
+export default BookItem;

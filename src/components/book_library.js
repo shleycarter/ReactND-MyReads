@@ -5,12 +5,13 @@ import { PropTypes } from "prop-types";
 
 class BookLibrary extends Component {
   static PropTypes = {
+    label: PropTypes.string.isRequired,
     books: PropTypes.array.isRequired,
-    onChange: PropTypes.func.isRequired
+    onSwitchShelf: PropTypes.func.isRequired
   };
 
   render() {
-    const shelfCollection = this.props.books;
+    const books = this.props.books;
 
     return (
       <div className="list-books">
@@ -21,12 +22,19 @@ class BookLibrary extends Component {
           <div>
             <BookShelf
               label="Currently Reading"
-              shelfCollection={shelfCollection.filter(
-                book => book.shelf === "currentlyReading"
-              )}
+              books={books.filter(book => book.shelf === "currentlyReading")}
+              onSwitchShelf={this.props.onChange}
             />
-            <BookShelf label="Want to Read" />
-            <BookShelf label="Read" />
+            <BookShelf
+              label="Want to Read"
+              books={books.filter(book => book.shelf === "wantToRead")}
+              onSwitchShelf={this.props.onChange}
+            />
+            <BookShelf
+              label="Read"
+              books={books.filter(book => book.shelf === "read")}
+              onSwitchShelf={this.props.onChange}
+            />
             <SearchButton />
           </div>
         </div>

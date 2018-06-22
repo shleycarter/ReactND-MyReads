@@ -2,9 +2,8 @@ import React from "react";
 import { Route } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
 import BookLibrary from "./components/book_library";
-
 import "./App.css";
-import SearchButton from "./components/search_button";
+import SearchPage from "./components/search_library";
 
 class BooksApp extends React.Component {
   state = {
@@ -39,7 +38,16 @@ class BooksApp extends React.Component {
             />
           )}
         />
-        <SearchButton />
+        <Route
+          exact
+          path="/search"
+          render={({ history }) => (
+            <SearchPage
+              onInputChange={this.updateBookData}
+              bookSearch={this.state.books}
+            />
+          )}
+        />
       </div>
     );
   }

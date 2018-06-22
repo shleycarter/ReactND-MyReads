@@ -7,7 +7,7 @@ class BookItem extends Component {
     onUpdate: PropTypes.func.isRequired
   };
 
-  switchBookShelf = e => {
+  onChangeBookShelf = e => {
     this.props.onUpdate(e.target.value);
   };
   render() {
@@ -25,14 +25,17 @@ class BookItem extends Component {
               }}
             />
             <div className="book-shelf-changer">
-              <select onChange={this.switchBookShelf} value={this.props.shelf}>
+              <select
+                onChange={this.onChangeBookShelf}
+                value={this.props.shelf}
+              >
                 <option value="none" disabled>
                   Move to...
                 </option>
+                <option value="none">Remove from Shelf</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
-                <option value="none">None</option>
               </select>
             </div>
           </div>

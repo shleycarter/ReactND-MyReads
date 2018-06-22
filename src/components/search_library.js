@@ -1,20 +1,64 @@
 import React, { Component } from "react";
+import BookItem from "./book_item";
 import { Link } from "react-router-dom";
+import { PropTypes } from "prop-types";
+import * as BooksAPI from "../BooksAPI";
 
 class SearchPage extends Component {
   state = {
+    Books: [],
     query: ""
   };
-  updateQuery = query => {
-    this.setState({ query: query.trim() });
+
+  static propTypes = {
+    onInputChange: PropTypes.func.isRequired,
+    bookSearch: PropTypes.array.isRequired
+  };
+  onChange = event => {
+    var value = event.target.value;
+    this.setState(() => {
+      return { query: value };
+    });
+    this.searchBooks(value);
   };
 
-  clearQuery = () => {
-    this.setState({ query: "" });
+  changeBookShelf = books => {
+    let bookSearch = this.props.bookSearch;
+    for (let book of books) {
+      book.shelf = "none";
+    }
+
+    for (let book of books) {
+      for (let b of bookSearch) {
+        if (b.id === book.id) {
+          book.shelf = b.shelf;
+        }
+      }
+    }
+    return books;
+  };
+
+  searchBooks = val => {
+    if (val.length !== 0) {
+      BooksAPI.search(val, 10).then(books => {
+        if (books.length > 0) {
+          books = books.filter(book => book.imageLinks);
+          books = this.changeBookShelf(books);
+          this.setState(() => {
+            return { Books: books };
+          });
+        }
+      });
+    } else {
+      this.setState({ Books: [], query: "" });
+    }
+  };
+
+  addNewBook = (book, shelf) => {
+    this.props.onInputChange(book, shelf);
   };
 
   render() {
-    const { query } = this.state;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -22,19 +66,27 @@ class SearchPage extends Component {
             Close
           </Link>
           <div className="search-books-input-wrapper">
-            {/*
-      NOTES: The search from BooksAPI is limited to a particular set of search terms.
-      You can find these search terms here:
-      https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-      However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-      you don't find a specific author or title. Every search is limited by search terms.
-    */}
-            <input type="text" placeholder="Search by title or author" />
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              value={this.state.query}
+              onChange={this.onChange}
+            />
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid" />
+          <ol className="books-grid">
+            {this.state.query.length > 0 &&
+              this.state.Books.map((book, index) => (
+                <BookItem
+                  book={book}
+                  key={index}
+                  onUpdate={shelf => {
+                    this.addNewBook(book, shelf);
+                  }}
+                />
+              ))}
+          </ol>
         </div>
       </div>
     );
